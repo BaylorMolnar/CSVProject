@@ -1,9 +1,10 @@
-# change file to include year 2018
+# handle error checking using try and except
+# change file to use death valley date
 
 import csv
 from datetime import datetime
 
-open_file = open("sitka_weather_2018_simple.csv", "r")
+open_file = open("death_valley_2018_simple.csv", "r")
 csv_file = csv.reader(open_file, delimiter=",")
 
 header_row = next(csv_file)
@@ -17,11 +18,19 @@ dates = []
 lows = []
 
 # use enumerate function instead of hardcoding row value
+
+
 for row in csv_file:
-    highs.append(int(row[5]))
-    converted_date = datetime.strptime(row[2], "%Y-%m-%d")
-    dates.append(converted_date)
-    lows.append(int(row[6]))
+    try:
+        high = int(row[4])
+        low = int(row[5])
+        converted_date = datetime.strptime(row[2], "%Y-%m-%d")
+    except ValueError:
+        print(f"Missing data for  {converted_date}")
+    else:
+        highs.append(int(row[4]))
+        lows.append(int(row[5]))
+        dates.append(converted_date)
 
 
 # print(highs)
@@ -42,12 +51,4 @@ plt.ylabel("Temperature(F)", fontsize=12)
 plt.tick_params(axis="both", labelsize=16)
 
 fig.autofmt_xdate()
-plt.show()
-
-# using subplots
-fig2, a = plt.subplots(2)
-
-a[0].plot(dates, highs, c="red")
-a[1].plot(dates, lows, c="blue")
-
 plt.show()
