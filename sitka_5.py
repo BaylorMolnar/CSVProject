@@ -4,27 +4,29 @@
 import csv
 from datetime import datetime
 
+# opening dv file
 open_file = open("death_valley_2018_simple.csv", "r")
 csv_file = csv.reader(open_file, delimiter=",")
 
 header_row = next(csv_file)
 
-
+# enumerate column names
 for index, column_header in enumerate(header_row):
     print("Index:", index, "Column name:", column_header)
 
-
+# set lists for dv
 highs = []
 dates = []
 lows = []
 
-# use enumerate function instead of hardcoding row value
+# indexing values from chart
 
 tmax_index = header_row.index("TMAX")
 tmin_index = header_row.index("TMIN")
 date_index = header_row.index("DATE")
 dv_title_index = header_row.index("NAME")
 
+# pulling values from csv to be able to graph
 for row in csv_file:
     try:
         high = int(row[tmax_index])
@@ -47,16 +49,17 @@ import matplotlib.pyplot as plt
 
 
 # sitka
-
+# opening sitka file
 open_file2 = open("sitka_weather_2018_simple.csv", "r")
 csv_file2 = csv.reader(open_file2, delimiter=",")
 
 header_row2 = next(csv_file2)
 
+# enumerating for names
 for index, column_header in enumerate(header_row2):
     print("Index:", index, "Column name:", column_header)
 
-
+# set correct indexes to pull from csv
 highs2 = []
 dates2 = []
 lows2 = []
@@ -67,6 +70,7 @@ date_index2 = header_row2.index("DATE")
 sitka_title_index = header_row2.index("NAME")
 # use enumerate function instead of hardcoding row value
 
+# pull data from csv to be able to graph
 for row in csv_file2:
     highs2.append(int(row[tmax_index2]))
     converted_date = datetime.strptime(row[date_index2], "%Y-%m-%d")
@@ -76,9 +80,11 @@ for row in csv_file2:
 
 import numpy as np
 
+# set variables for y axis labels
 ytix = np.arange(30, 71, 10)
 ytix2 = np.arange(40, 121, 20)
 
+# graph both sets of data on subplot
 fig3, ax = plt.subplots(2)
 ax[0].plot(dates2, highs2, c="red")
 ax[0].plot(dates2, lows2, c="blue")
